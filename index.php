@@ -18,7 +18,6 @@ function whatIsHappening()
     var_dump($_SESSION);
 }
 
-//your products with their price.
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
     ['name' => 'Club Cheese', 'price' => 3],
@@ -26,68 +25,100 @@ $products = [
     ['name' => 'Club Chicken', 'price' => 4],
     ['name' => 'Club Salmon', 'price' => 5]
 ];
+//your products with their price.
+if(isset($_GET['food'])){
+    if ($_GET['food']==1){
+        $products = [
+            ['name' => 'Club Ham', 'price' => 3.20],
+            ['name' => 'Club Cheese', 'price' => 3],
+            ['name' => 'Club Cheese & Ham', 'price' => 4],
+            ['name' => 'Club Chicken', 'price' => 4],
+            ['name' => 'Club Salmon', 'price' => 5]
+        ];
 
-$products = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
+    }else{
+        $products = [
+            ['name' => 'Cola', 'price' => 2],
+            ['name' => 'Fanta', 'price' => 2],
+            ['name' => 'Sprite', 'price' => 2],
+            ['name' => 'Ice-tea', 'price' => 3],
+        ];
+
+    }
+
+}
+
+
+
 
 $totalValue = 0;
 
+session_start();
+
 $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
-$email = $street = $streetnumber = $city = $zipcode = "";
+$email = $street = $streetnumber = $city = $zipcode = $validate = "";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["email"])) {
-        $email = htmlspecialchars($_POST["email"]);
-        if (empty($_POST["email"])) {
+    if (empty($_POST["email"])) {
             $emailErr = "Email is a required field";
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format";
+    } else {
+        $email = htmlspecialchars($_POST["email"]);
+        $_SESSION["email"]=$email;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                  $emailErr = "Invalid email format";
         }
-
     }
 
-    $streetErr = "";
-    if (isset($_POST["street"])) {
-        $street = htmlspecialchars($_POST["street"]);
-        if (empty($_POST["street"])) {
+    if (empty($_POST["street"])) {
             $streetErr = "Street is a required field";
-        } else if (!preg_match("/^[a-zA-Z-' ]+$/", $street)) {
-            $streetErr = "Invalid street name";
+    } else {
+        $street = htmlspecialchars($_POST["street"]);
+        $_SESSION["street"] = $street;
+        if (!preg_match("/^[a-zA-Z-' ]+$/", $street)) {
+                $streetErr = "Invalid street name";
         }
+
     }
 
-    $streetnumberErr = "";
-    if (isset($_POST["streetnumber"])) {
-        $streetnumber = htmlspecialchars($_POST["streetnumber"]);
-        if (empty($_POST["streetnumber"])) {
+    if (empty($_POST["streetnumber"])) {
             $streetnumberErr = "Street Number is a required field";
-        } else if (!filter_var($streetnumber, FILTER_VALIDATE_INT)) {
-            $streetnumberErr = "invalid street number";
-        }
-    }
+        } else {
+            $streetnumber = htmlspecialchars($_POST["streetnumber"]);
+            $_SESSION["streetnumber"] = $streetnumber;
+            /*if (!filter_var($streetnumber, FILTER_VALIDATE_INT)) {
+                $streetnumberErr = "invalid street number";
+             }*/
+            if(!is_numeric($streetnumber)){
+                $streetnumberErr = "invalid street number";
+            }
 
-    $cityErr = "";
-    if (isset($_POST["city"])) {
-        $city = htmlspecialchars($_POST["city"]);
-        if (empty($_POST["city"])) {
+        }
+
+    if (empty($_POST["city"])) {
             $cityErr = "City is a required field";
-        }
+        }else{
+            $city = htmlspecialchars($_POST["city"]);
+            $_SESSION["city"] = $city;
     }
 
-    $zipcodeErr = "";
-    if (isset($_POST["zipcode"])) {
-        $zipcode = htmlspecialchars($_POST["zipcode"]);
-        if (empty($_POST["zipcode"])) {
+    if (empty($_POST["zipcode"])) {
             $zipcodeErr = "Zipcode is a required field";
-        } else if (!filter_var($zipcode, FILTER_VALIDATE_INT)) {
+        } else {
+            $zipcode = htmlspecialchars($_POST["zipcode"]);
+            $_SESSION ["zipcode"] = $zipcode;
+            /*if (!filter_var($zipcode, FILTER_VALIDATE_INT)){
             $zipcodeErr = "invalid Zipcode";
+            }*/
+            if(!is_numeric($zipcode)){
+                $zipcodeErr = "invalid Zipcode";
+            }
         }
+    if (!$emailErr && !$streetErr && !$streetnumberErr && !$cityErr && !$zipcodeErr){
+        $validate = "Your order has been sent!";
     }
 }
+
+
 
 require 'form-view.php';

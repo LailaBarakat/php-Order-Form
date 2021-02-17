@@ -25,26 +25,21 @@
 
 
     <?php
-    $allgood = null;
-    if ($emailErr){echo '<div class="alert alert-danger" role="alert">'.$emailErr.'<br>'.'</div>';$allgood = false;}
-    if ($streetErr){echo '<div class="alert alert-danger" role="alert">'.$streetErr.'</div>';$allgood = false;}
-    if ($streetnumberErr){echo '<div class="alert alert-danger" role="alert">'.$streetnumberErr.'</div>';$allgood = false;}
-    if ($cityErr){echo '<div class="alert alert-danger" role="alert">'.$cityErr. '</div>';$allgood = false;}
-    if ($zipcodeErr){echo '<div class="alert alert-danger" role="alert">'.$zipcodeErr. '</div>';$allgood = false;}
-    if ($allgood == true){
-
-        $allgood = '<div class="alert alert-success" role="alert">
+    if ($emailErr){echo '<div class="alert alert-danger" role="alert">'.$emailErr.'</div>';}
+    if ($streetErr){echo '<div class="alert alert-danger" role="alert">'.$streetErr.'</div>';}
+    if ($streetnumberErr){echo '<div class="alert alert-danger" role="alert">'.$streetnumberErr.'</div>';}
+    if ($cityErr){echo '<div class="alert alert-danger" role="alert">'.$cityErr. '</div>';}
+    if ($zipcodeErr){echo '<div class="alert alert-danger" role="alert">'.$zipcodeErr. '</div>';}
+    if ($validate) {echo '<div class="alert alert-success" role="alert">
                 Your order has been sent!
-                </div>';
-        echo $allgood;
-    }
+                </div>';}
     ?>
 
     <form method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value="<?php if(!$emailErr){print htmlspecialchars($_POST["email"]);}?>"/>
+                <input type="text" id="email" name="email" class="form-control" value="<?php print $_SESSION["email"] //if(!$emailErr){print htmlspecialchars($_POST["email"]);}?>"/>
             </div>
             <div></div>
         </div>
@@ -55,21 +50,21 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value="<?php if(!$streetErr){print htmlspecialchars($_POST["street"]);}?>">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php print $_SESSION["street"]//if(!$streetErr){print htmlspecialchars($_POST["street"]);}?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php if(!$streetnumberErr){print htmlspecialchars($_POST["streetnumber"]);}?>">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php print $_SESSION["streetnumber"]//if(!$streetnumberErr){print htmlspecialchars($_POST["streetnumber"]);}?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value="<?php if(!$cityErr){print htmlspecialchars($_POST["city"]);}?>">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php print $_SESSION["city"]//if(!$cityErr){print htmlspecialchars($_POST["city"]);}?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php if(!$zipcodeErr){print htmlspecialchars($_POST["zipcode"]);}?>">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php print $_SESSION["zipcode"]//if(!$zipcodeErr){print htmlspecialchars($_POST["zipcode"]);}?>">
                 </div>
             </div>
         </fieldset>
