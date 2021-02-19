@@ -48,15 +48,25 @@ if(isset($_GET['food'])){
 
 }
 
+// setting delivery time
+date_default_timezone_set("Europe/Brussels");
+$currentTime = date("H:i:s");
+$deliveryTime = date('H:i:s', strtotime(' + 2 hours'));
+//echo $deliveryTime;
+$expressdelivery = date('H:i:s',strtotime(' +45 minutes'));
 
 
-
+// setting the counter
 $totalValue = 0;
 
-session_start();
 
+// Identifying our variables
 $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 $email = $street = $streetnumber = $city = $zipcode = $validate = "";
+$expressFee = 5; //$subject = "Order confirmation"; $message = "something";
+
+
+//mail('laila.n.barakat@gmail.com', $subject, $message);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -115,9 +125,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     if (!$emailErr && !$streetErr && !$streetnumberErr && !$cityErr && !$zipcodeErr){
-        $validate = "Your order has been sent!";
+        $validate = "Your order has been sent! <br> Delivery time: " . $deliveryTime;
+
     }
+
+    if (isset($_POST['express_delivery'])){
+        //$_SESSION['express_delivery']= $expressdelivery;
+        $validate = "Your order has been sent! <br> Delivery time: " . $expressdelivery;
+        $totalValue = $totalValue + $expressFee; //$totalValue += $expressFee
+    }
+
+    if (isset($_POST['products'])){
+        foreach ($_POST['products'] as $i => $product){
+            $price = $products[$i]['price'];
+            $totalValue = $totalValue + $price;
+         }
+
+    }
+
+
+
 }
+
 
 
 

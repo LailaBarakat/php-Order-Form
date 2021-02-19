@@ -30,9 +30,7 @@
     if ($streetnumberErr){echo '<div class="alert alert-danger" role="alert">'.$streetnumberErr.'</div>';}
     if ($cityErr){echo '<div class="alert alert-danger" role="alert">'.$cityErr. '</div>';}
     if ($zipcodeErr){echo '<div class="alert alert-danger" role="alert">'.$zipcodeErr. '</div>';}
-    if ($validate) {echo '<div class="alert alert-success" role="alert">
-                Your order has been sent!
-                </div>';}
+    if ($validate) {echo '<div class="alert alert-success" role="alert">'. $validate. '</div>';}
     ?>
 
     <form method="post">
